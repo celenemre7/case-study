@@ -16,4 +16,64 @@
       <button id="save-task-btn">Save</button>
     </div>
   </body>
+
+  <script>
+      const taskList = document.getElementById("task-list");
+      const addTaskBtn = document.getElementById("add-task-btn");
+      const taskForm = document.getElementById("task-form");
+      const taskInput = document.getElementById("task-input");
+      const saveTaskBtn = document.getElementById("save-task-btn");
+
+      let tasks = [];
+
+      addTaskBtn.addEventListener("click", () => {
+        taskForm.style.display = "flex";
+      });
+
+      saveTaskBtn.addEventListener("click", () => {
+        const newTask = taskInput.value;
+        if (newTask !== "") {
+          tasks.push({
+            text: newTask,
+            completed: false,
+          });
+          renderTasks();
+          taskForm.style.display = "none";
+          taskInput.value = "";
+        }
+      });
+
+      function renderTasks() {
+        taskList.innerHTML = "";
+        tasks.forEach((task, index) => {
+          const taskItem = document.createElement("div");
+          taskItem.className = "task-item";
+          taskItem.innerHTML = `
+      <input type="checkbox" ${
+        task.completed ? "checked" : ""
+      } data-index="${index}">
+      <span>${task.text}</span>
+      <button onclick="deleteTask(${index})">Delete</button>
+    `;
+          taskList.appendChild(taskItem);
+        });
+
+        const checkboxes = document.querySelectorAll(
+          ".task-item input[type='checkbox']"
+        );
+        checkboxes.forEach((checkbox) => {
+          checkbox.addEventListener("change", (e) => {
+            const index = e.target.getAttribute("data-index");
+            tasks[index].completed = e.target.checked;
+          });
+        });
+      }
+
+      function deleteTask(index) {
+        tasks.splice(index, 1);
+        renderTasks();
+      }
+
+      renderTasks();
+    </script>
 </html>

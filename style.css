@@ -91,7 +91,7 @@ h1 {
   border: 1px solid #ddd;
   border-radius: 3px;
   font-size: 16px;
-  min-width: 0; /* Prevent input from overflowing */
+  min-width: 0; 
 }
 #task-input:focus {
   outline: none;
